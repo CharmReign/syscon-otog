@@ -1,0 +1,63 @@
+# IDE and editors
+.idea/
+.vscode/
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Production builds
+/build
+dist/
+
+# Environment files
+.env
+.env*.local
+*token.json*
+*credentials.json*
+
+# Logs and debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+*.pem
+
+# Deployment
+.vercel
+
+# Archive files
+**/*.zip
+**/*.tar.gz
+**/*.tar
+**/*.tgz
+
+# Build caches
+.cache/
+
+# Tooling / assistant workspace files
+.claude/
+
+# OneTeamOneGoal data (database file, uploads, extracted text, dev session secret)
+/data/
+/notes/
