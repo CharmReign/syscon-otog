@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // The references a draft would use: library, documents, Jira and Confluence. No AI call.
 export const GET = route(async (request, ctx) => {
-  requireUser(request);
+  await requireUser(request);
   const { id } = await params(ctx);
   return json(await previewReferences(id));
 });

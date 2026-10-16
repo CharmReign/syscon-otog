@@ -10,11 +10,11 @@ import { call, createUser, req, useTempDataDir } from './helpers';
 
 describe('release sanity checks', () => {
   let admin, lead, other;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
-    admin = createUser(ROLES.ADMIN);
-    lead = createUser(ROLES.EMPLOYEE, 'Rae Release');
-    other = createUser(ROLES.EMPLOYEE, 'Otto Other');
+    admin = await createUser(ROLES.ADMIN);
+    lead = await createUser(ROLES.EMPLOYEE, 'Rae Release');
+    other = await createUser(ROLES.EMPLOYEE, 'Otto Other');
   });
 
   const template = { name: 'Web release', items: [{ title: 'Login works', critical: true }, { title: 'Reports render' }] };

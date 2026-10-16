@@ -1,5 +1,6 @@
 const nextConfig = {
-  output: 'standalone',
+  // Standalone output is for self-hosting (node server.js); Vercel builds its own functions.
+  output: process.env.VERCEL ? undefined : 'standalone',
   devIndicators: false,
   images: {
     unoptimized: true,

@@ -1,13 +1,14 @@
 import { requireUser } from '@/lib/server/auth';
 import { json, params, route } from '@/lib/server/http';
-import { addKnowledge, readAnalysisForm } from '@/lib/server/asis/service';
+import { addKnowledge, publicProject, readAnalysisForm } from '@/lib/server/asis/service';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 180;
+export const maxDuration = 300;
 
-// Multipart: context, classification, references (JSON list), files (repeatable).
+// Adds a knowledge base version. Multipart: context, classification, pasted,
+// pastedSources (JSON list), references (JSON list), demo, files (repeatable).
 export const POST = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
-  return json({ project: await addKnowledge(user, id, await readAnalysisForm(request)) });
+  return json({ project: publicProject(await addKnowledge(user, id, await readAnalysisForm(request))) });
 });

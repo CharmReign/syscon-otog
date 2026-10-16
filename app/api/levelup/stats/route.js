@@ -4,4 +4,4 @@ import { learnerStats } from '@/lib/server/quiz/service';
 
 export const dynamic = 'force-dynamic';
 
-export const GET = route(async (request) => json({ stats: learnerStats(requireUser(request)) }));
+export const GET = route(async (request) => json({ stats: await learnerStats(await requireUser(request)) }));

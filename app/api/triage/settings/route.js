@@ -6,12 +6,12 @@ export const dynamic = 'force-dynamic';
 
 // The "before" numbers the Results tab compares against.
 export const GET = route(async (request) => {
-  requireUser(request);
-  return json({ baseline: getBaseline() });
+  await requireUser(request);
+  return json({ baseline: await getBaseline() });
 });
 
 // Body: { hours, devShare }
 export const PUT = route(async (request) => {
-  const user = requireUser(request);
-  return json({ baseline: setBaseline(user, await readJson(request)) });
+  const user = await requireUser(request);
+  return json({ baseline: await setBaseline(user, await readJson(request)) });
 });

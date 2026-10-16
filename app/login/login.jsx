@@ -8,12 +8,12 @@ import { Input } from '@/components/ui/input';
 import { LogoMark } from '@/components/brand/logo';
 import { CreditFooter } from '@/components/common/credit-footer';
 
-// Demo shortcuts fill in the seeded accounts. They're left out of production builds,
-// where demo users aren't created either (see SEED_DEMO_USERS).
-const SHOW_DEMO = process.env.NODE_ENV !== 'production';
+// The built-in accounts (lib/server/auth.js), shown so visitors can sign in straight away.
+// Remove this block together with SEED_DEMO_USERS=false once real accounts exist.
+const DEMO_PASSWORD = 'syscon123';
 const DEMO_ACCOUNTS = [
-  { label: 'Employee', username: 'employee', icon: User, desc: 'Learn, take quizzes, use every module' },
-  { label: 'Admin', username: 'admin', icon: ShieldCheck, desc: 'Everything an employee can do, plus upload sources and manage quizzes' },
+  { label: 'User', username: 'sysconuser', icon: User, desc: 'Learn, take quizzes, use every module' },
+  { label: 'Admin', username: 'sysconadmin', icon: ShieldCheck, desc: 'Everything a user can do, plus upload sources and manage quizzes' },
 ];
 
 const MODULES = [
@@ -34,7 +34,7 @@ export function LoginScreen({ onLogin }) {
   const pickDemo = (i) => {
     setDemo(i);
     setUsername(DEMO_ACCOUNTS[i].username);
-    setPassword('demo1234');
+    setPassword(DEMO_PASSWORD);
     setError('');
   };
 
@@ -97,24 +97,27 @@ export function LoginScreen({ onLogin }) {
               <p className="text-sm text-muted-foreground mt-1">Use your OneTeamOneGoal account.</p>
             </div>
 
-            {SHOW_DEMO && (
-              <div className="mb-5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">Demo accounts</div>
-                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Demo account">
-                  {DEMO_ACCOUNTS.map((a, i) => (
-                    <button
-                      key={a.label} type="button" role="radio" aria-checked={demo === i} onClick={() => pickDemo(i)}
-                      className={`relative flex items-center gap-2 rounded-lg border p-2.5 text-left transition ${demo === i ? 'border-primary bg-primary/10' : 'hover:border-primary/50'}`}
-                    >
-                      <span className="w-8 h-8 rounded-md flex items-center justify-center bg-primary/15 text-primary"><a.icon className="w-4 h-4" /></span>
-                      <span className="text-sm font-semibold">{a.label}</span>
-                      {demo === i && <CheckCircle2 className="absolute top-1.5 right-1.5 w-3.5 h-3.5 text-primary" />}
-                    </button>
-                  ))}
-                </div>
-                {demo !== null && <p className="text-[11px] text-muted-foreground mt-2">{DEMO_ACCOUNTS[demo].desc}</p>}
+            <div className="mb-5">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">Sign in with</div>
+              <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Account">
+                {DEMO_ACCOUNTS.map((a, i) => (
+                  <button
+                    key={a.label} type="button" role="radio" aria-checked={demo === i} onClick={() => pickDemo(i)}
+                    className={`relative flex min-w-0 items-center gap-2 rounded-lg border p-2.5 text-left transition ${demo === i ? 'border-primary bg-primary/10' : 'hover:border-primary/50'}`}
+                  >
+                    <span className="w-8 h-8 shrink-0 rounded-md flex items-center justify-center bg-primary/15 text-primary"><a.icon className="w-4 h-4" /></span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold">{a.label}</span>
+                      <span className="block truncate font-mono text-[11px] text-muted-foreground">{a.username}</span>
+                    </span>
+                    {demo === i && <CheckCircle2 className="absolute top-1.5 right-1.5 w-3.5 h-3.5 text-primary" />}
+                  </button>
+                ))}
               </div>
-            )}
+              <p className="text-[11px] text-muted-foreground mt-2">
+                {demo !== null && <> · {DEMO_ACCOUNTS[demo].desc}</>}
+              </p>
+            </div>
 
             <label htmlFor="username" className="text-xs font-semibold text-muted-foreground mb-1.5">Username</label>
             <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} className="h-11 mb-4" autoComplete="username" required />

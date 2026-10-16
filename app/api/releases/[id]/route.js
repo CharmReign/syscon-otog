@@ -5,19 +5,19 @@ import { deleteRelease, getRelease, updateRelease } from '@/lib/server/releases'
 export const dynamic = 'force-dynamic';
 
 export const GET = route(async (request, ctx) => {
-  requireUser(request);
+  await requireUser(request);
   const { id } = await params(ctx);
-  return json({ release: getRelease(id) });
+  return json({ release: await getRelease(id) });
 });
 
 export const PATCH = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
-  return json({ release: updateRelease(user, id, await readJson(request)) });
+  return json({ release: await updateRelease(user, id, await readJson(request)) });
 });
 
 export const DELETE = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
-  return json(deleteRelease(user, id));
+  return json(await deleteRelease(user, id));
 });

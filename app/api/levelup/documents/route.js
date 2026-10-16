@@ -8,14 +8,14 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
 export const GET = route(async (request) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const category = new URL(request.url).searchParams.get('category') || undefined;
-  return json({ documents: listDocuments(user, { category }) });
+  return json({ documents: await listDocuments(user, { category }) });
 });
 
 // Admin-only multipart upload: file, title, description, category.
 export const POST = route(async (request) => {
-  const user = requireAdmin(request);
+  const user = await requireAdmin(request);
   // Reject oversized bodies before buffering them (multipart adds a little overhead).
   const length = Number(request.headers.get('content-length') || 0);
   if (length > maxUploadBytes() + 64 * 1024) throw new HttpError(413, `The file is over ${Math.round(maxUploadBytes() / 1048576)} MB.`, 'TOO_LARGE');

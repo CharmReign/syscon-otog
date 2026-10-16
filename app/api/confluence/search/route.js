@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // ?q=&space=&start=&limit=&cursor=
 export const GET = route(async (request) => {
-  requireUser(request);
+  await requireUser(request);
   const sp = new URL(request.url).searchParams;
   const data = await getClient('confluence').search({
     query: sp.get('q'), spaceKey: sp.get('space') || undefined,

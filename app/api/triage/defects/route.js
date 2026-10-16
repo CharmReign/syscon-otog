@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 // Client defects come from Jira, filtered by the server-configured JIRA_DEFECT_JQL.
 // ?q=&project=&status=&limit=&startAt=&next=
 export const GET = route(async (request) => {
-  requireUser(request);
+  await requireUser(request);
   const sp = new URL(request.url).searchParams;
   const data = await getClient('jira').search({
     defectsOnly: true,

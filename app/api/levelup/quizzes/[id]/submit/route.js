@@ -7,8 +7,8 @@ export const dynamic = 'force-dynamic';
 // Body: { answers: { [questionId]: optionIndex } }. Scored on the server; the attempt
 // always belongs to the signed-in user.
 export const POST = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
   const body = await readJson(request);
-  return json({ attempt: submitAttempt(user, id, body.answers) }, 201);
+  return json({ attempt: await submitAttempt(user, id, body.answers) }, 201);
 });

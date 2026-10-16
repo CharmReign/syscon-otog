@@ -5,7 +5,7 @@ import { getClient } from '@/lib/server/integrations';
 export const dynamic = 'force-dynamic';
 
 export const GET = route(async (request, ctx) => {
-  requireUser(request);
+  await requireUser(request);
   const { id } = await params(ctx);
   return json({ page: await getClient('confluence').getPage(id) });
 });

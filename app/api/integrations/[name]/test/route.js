@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // Admin: makes a real authenticated call and records whether it worked.
 export const POST = route(async (request, ctx) => {
-  const user = requireAdmin(request);
+  const user = await requireAdmin(request);
   const { name } = await params(ctx);
   if (!isIntegration(name)) throw notFound('Unknown integration.');
   return json({ integration: await testIntegration(user, name) });

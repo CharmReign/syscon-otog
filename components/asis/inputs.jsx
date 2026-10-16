@@ -1,43 +1,77 @@
 'use client';
 
-// Inputs shared by the intake and Add knowledge forms: a document drop zone and a picker
+// Inputs shared by the intake and Add knowledge forms: a drop zone for documents and
+// screenshots, a box for pasted email / Teams / Jira / Confluence content, and a picker
 // that pulls references from internal documents, Confluence and Jira.
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { ExternalLink, FileUp, Loader2, Plus, Search, X } from 'lucide-react';
+import { ExternalLink, FileUp, Image as ImageIcon, Loader2, Plus, Search, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SOURCES } from '@/components/asis/knowledge-search';
+import { LimitedTextarea } from '@/components/asis/shared';
+import { loadImage, toJpeg } from '@/components/triage/attachments';
 import { api } from '@/lib/api-client';
+import { LIMITS, MATERIAL_ACCEPT, MATERIAL_HINT, PASTE_SOURCES } from '@/lib/asis';
 import { fmtBytes } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
-export const DOC_ACCEPT = '.pdf,.docx,.txt,.md';
-const MAX_FILES = 10;
-const REFERENCE_CHARS = 6000;
+const REFERENCE_CHARS = LIMITS.referenceChars;
+const isImage = (f) => /^image\//.test(f.type) || /\.(png|jpe?g|webp|gif)$/i.test(f.name);
+const extOk = (accept, f) => accept.split(',').some(x => f.name.toLowerCase().endsWith(x.trim().toLowerCase()));
 
-export function FileDrop({ files, onChange, accept = DOC_ACCEPT, multiple = true, label = 'Add documents', hint = 'PDF, Word (.docx), text or Markdown' }) {
+// Screenshots are shrunk to a JPEG in the browser, so only small images are uploaded.
+async function asJpeg(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await loadImage(url);
+    const blob = await toJpeg(img, img.naturalWidth, img.naturalHeight);
+    return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, { type: 'image/jpeg' });
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+export function FileDrop({ files, onChange, accept = MATERIAL_ACCEPT, multiple = true, label = 'Add documents and screenshots', hint = MATERIAL_HINT }) {
   const input = useRef(null);
   const [over, setOver] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  const add = (list) => {
+  const add = async (list) => {
     const incoming = Array.from(list || []);
-    if (!multiple) return onChange(incoming.slice(0, 1));
+    const rejected = incoming.filter(f => !extOk(accept, f));
+    if (rejected.length) toast.error(`Not added, unsupported file type: ${rejected.slice(0, 3).map(f => f.name).join(', ')}${/\.(doc|ppt|xls)$/i.test(rejected[0].name) ? '. Save older Office files in the newer format (.docx, .pptx, .xlsx).' : ''}`);
+    const ok = incoming.filter(f => extOk(accept, f));
+    if (!ok.length) return;
+    if (!multiple) return onChange(ok.slice(0, 1));
+    setBusy(true);
+    const prepared = [];
+    for (const f of ok) {
+      try {
+        prepared.push(isImage(f) && (f.type !== 'image/jpeg' || f.size > 2 * 1024 * 1024) ? await asJpeg(f) : f);
+      } catch (e) {
+        toast.error(`${f.name}: ${e.message}`);
+      }
+    }
+    setBusy(false);
     const names = new Set(files.map(f => f.name));
-    const next = [...files, ...incoming.filter(f => !names.has(f.name))];
-    if (next.length > MAX_FILES) toast.error(`Add at most ${MAX_FILES} documents at a time.`);
-    onChange(next.slice(0, MAX_FILES));
+    const next = [...files, ...prepared.filter(f => !names.has(f.name))];
+    const docs = next.filter(f => !isImage(f));
+    const images = next.filter(isImage);
+    if (docs.length > LIMITS.files) toast.error(`Attach at most ${LIMITS.files} documents at a time.`);
+    if (images.length > LIMITS.images) toast.error(`At most ${LIMITS.images} screenshots are sent to Claude per analysis.`);
+    onChange([...docs.slice(0, LIMITS.files), ...images.slice(0, LIMITS.images)]);
   };
 
   return (
     <div>
-      <button type="button" onClick={() => input.current?.click()}
+      <button type="button" onClick={() => input.current?.click()} disabled={busy}
         onDragOver={(e) => { e.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
         onDrop={(e) => { e.preventDefault(); setOver(false); add(e.dataTransfer.files); }}
         className={cn('w-full rounded-lg border-2 border-dashed px-4 py-5 text-center text-sm transition-colors', over ? 'border-primary bg-primary/5' : 'hover:border-primary/50')}>
-        <FileUp className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
-        <div className="font-medium">{label}</div>
+        {busy ? <Loader2 className="w-5 h-5 mx-auto mb-1 animate-spin text-muted-foreground" /> : <FileUp className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />}
+        <div className="font-medium">{busy ? 'Preparing files…' : over ? 'Drop to add these files' : label}</div>
         <div className="text-xs text-muted-foreground">Click or drop files · {hint}</div>
       </button>
       <input ref={input} type="file" accept={accept} multiple={multiple} className="hidden" onChange={(e) => { add(e.target.files); e.target.value = ''; }} />
@@ -45,13 +79,32 @@ export function FileDrop({ files, onChange, accept = DOC_ACCEPT, multiple = true
         <ul className="mt-2 space-y-1.5">
           {files.map((f, i) => (
             <li key={f.name} className="flex items-center gap-2 rounded-md border bg-muted/40 px-3 py-1.5 text-sm">
+              {isImage(f) && <ImageIcon className="w-4 h-4 text-primary shrink-0" />}
               <span className="flex-1 min-w-0 truncate font-medium">{f.name}</span>
-              <span className="text-xs text-muted-foreground">{fmtBytes(f.size)}</span>
+              <span className="text-xs text-muted-foreground">{isImage(f) ? 'sent to Claude' : fmtBytes(f.size)}</span>
               <button type="button" aria-label={`Remove ${f.name}`} className="text-muted-foreground hover:text-destructive" onClick={() => onChange(files.filter((_, j) => j !== i))}><X className="w-4 h-4" /></button>
             </li>
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+// Content pasted from email threads, Teams messages, Jira tickets or Confluence pages.
+export function PasteBox({ value, onChange, sources, onSources, id }) {
+  return (
+    <div className="space-y-2">
+      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Where the pasted content came from">
+        {PASTE_SOURCES.map(s => (
+          <button key={s} type="button" aria-pressed={sources.includes(s)} onClick={() => onSources(sources.includes(s) ? sources.filter(x => x !== s) : [...sources, s])}
+            className={cn('px-3 h-8 rounded-md border text-xs', sources.includes(s) ? 'border-primary bg-primary/10 text-primary font-semibold' : 'text-muted-foreground hover:border-primary/50')}>
+            {s}
+          </button>
+        ))}
+      </div>
+      <LimitedTextarea id={id} limit={LIMITS.pasted} value={value} onChange={(e) => onChange(e.target.value)} rows={5}
+        note="Optional. Tick where it came from." placeholder="Paste the relevant email threads, Teams messages, Jira tickets or Confluence pages, including any replies that matter…" />
     </div>
   );
 }

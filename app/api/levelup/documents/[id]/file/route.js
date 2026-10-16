@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic';
 // Downloads the original upload. Sent as an attachment with a fixed type so the
 // browser never renders an uploaded file inline as a page.
 export const GET = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
-  const { buffer, filename, mime } = getDocumentFile(user, id);
+  const { buffer, filename, mime } = await getDocumentFile(user, id);
   const ascii = filename.replace(/[^\x20-\x7e]/g, '_').replace(/"/g, '');
   return new Response(buffer, {
     headers: {

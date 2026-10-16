@@ -12,7 +12,7 @@ import { LIMITS } from '@/lib/triage';
 import { cn } from '@/lib/utils';
 
 // ── preparing files ────────────────────────────────────────
-function loadImage(src) {
+export function loadImage(src) {
   return new Promise((ok, fail) => {
     const img = new Image();
     img.onload = () => ok(img);
@@ -21,7 +21,8 @@ function loadImage(src) {
   });
 }
 
-async function toJpeg(source, w, h) {
+// Also used by the AS-IS Navigator for screenshots attached to an analysis.
+export async function toJpeg(source, w, h) {
   const scale = Math.min(1, LIMITS.imageMaxWidth / w);
   const c = document.createElement('canvas');
   c.width = Math.round(w * scale);

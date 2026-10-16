@@ -25,7 +25,7 @@ const cloudConfluence = { baseUrl: 'https://acme.atlassian.net/wiki', deployment
 const dcJira = { baseUrl: 'https://jira.acme.test', deployment: 'datacenter', pat: 'dc-pat', email: '', apiToken: '', timeoutMs: 500, projectKeys: [], defectJql: 'issuetype = Bug', clientField: 'customfield_100', severityField: '', configured: true };
 const cloudJira = { ...dcJira, baseUrl: 'https://acme.atlassian.net', deployment: 'cloud', pat: '', email: 'bot@acme.test', apiToken: 't' };
 
-beforeEach(() => { ENV_KEYS.forEach(k => delete process.env[k]); });
+beforeEach(async () => { ENV_KEYS.forEach(k => delete process.env[k]); });
 afterEach(() => { vi.unstubAllGlobals(); });
 
 describe('query building', () => {
@@ -127,10 +127,10 @@ describe('Jira client', () => {
 
 describe('routes without configuration', () => {
   let admin, employee;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
-    admin = createUser(ROLES.ADMIN);
-    employee = createUser(ROLES.EMPLOYEE);
+    admin = await createUser(ROLES.ADMIN);
+    employee = await createUser(ROLES.EMPLOYEE);
   });
 
   it('reports integrations as not configured and keeps the rest working', async () => {

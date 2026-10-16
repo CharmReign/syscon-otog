@@ -10,7 +10,7 @@ import { GET as listAttempts } from '@/app/api/levelup/attempts/route';
 import { call, createUser, req, textFile, uploadForm, useTempDataDir } from './helpers';
 
 describe('sessions and passwords', () => {
-  beforeEach(() => { useTempDataDir(); });
+  beforeEach(async () => { useTempDataDir(); });
 
   it('hashes and verifies passwords', () => {
     const h = hashPassword('s3cret-pass');
@@ -29,8 +29,8 @@ describe('sessions and passwords', () => {
   });
 
   it('logs in with the right password only and sets an httpOnly cookie', async () => {
-    const u = createUser(ROLES.EMPLOYEE);
-    expect(authenticate(u.username, 'nope')).toBeNull();
+    const u = await createUser(ROLES.EMPLOYEE);
+    expect(await authenticate(u.username, 'nope')).toBeNull();
     const res = await login(req('/api/auth/login', { method: 'POST', body: { username: u.username, password: 'pw-123456' } }), {});
     expect(res.status).toBe(200);
     expect(res.headers.get('set-cookie')).toMatch(/HttpOnly/);
@@ -38,8 +38,22 @@ describe('sessions and passwords', () => {
     expect(bad.status).toBe(401);
   });
 
+  it('signs in with the built-in accounts, and a session survives a fresh store', async () => {
+    process.env.SEED_DEMO_USERS = 'true';
+    const ok = await call(login, req('/api/auth/login', { method: 'POST', body: { username: 'sysconadmin', password: 'syscon123' } }));
+    expect(ok).toMatchObject({ status: 200, data: { user: { username: 'sysconadmin', role: ROLES.ADMIN } } });
+    const user = await call(login, req('/api/auth/login', { method: 'POST', body: { username: 'sysconuser', password: 'syscon123' } }));
+    expect(user.data.user.role).toBe(ROLES.EMPLOYEE);
+
+    // Another serverless instance starts with an empty store but must accept the same session.
+    useTempDataDir();
+    process.env.SEED_DEMO_USERS = 'true';
+    const { data } = await call(me, req('/api/auth/me', { user: { id: ok.data.user.id } }));
+    expect(data.user.username).toBe('sysconadmin');
+  });
+
   it('reads the role from the store, not the client', async () => {
-    const u = createUser(ROLES.EMPLOYEE);
+    const u = await createUser(ROLES.EMPLOYEE);
     const { data } = await call(me, req('/api/auth/me', { user: u }));
     expect(data.user.role).toBe(ROLES.EMPLOYEE);
     expect(data.user.passwordHash).toBeUndefined();
@@ -48,10 +62,10 @@ describe('sessions and passwords', () => {
 
 describe('authorization', () => {
   let employee, admin;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
-    employee = createUser(ROLES.EMPLOYEE, 'Erin Employee');
-    admin = createUser(ROLES.ADMIN, 'Ada Admin');
+    employee = await createUser(ROLES.EMPLOYEE, 'Erin Employee');
+    admin = await createUser(ROLES.ADMIN, 'Ada Admin');
   });
 
   it('requires sign-in for module data', async () => {

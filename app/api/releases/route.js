@@ -5,12 +5,12 @@ import { createRelease, listReleases } from '@/lib/server/releases';
 export const dynamic = 'force-dynamic';
 
 export const GET = route(async (request) => {
-  requireUser(request);
-  return json({ releases: listReleases() });
+  await requireUser(request);
+  return json({ releases: await listReleases() });
 });
 
 // Body: { name, version, targetDate, notes, jiraKeys, templateId }
 export const POST = route(async (request) => {
-  const user = requireUser(request);
-  return json({ release: createRelease(user, await readJson(request)) }, 201);
+  const user = await requireUser(request);
+  return json({ release: await createRelease(user, await readJson(request)) }, 201);
 });

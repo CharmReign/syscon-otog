@@ -7,7 +7,7 @@ export const maxDuration = 180;
 
 // Finds the closest references, then drafts (or redrafts) the reply with Claude.
 export const POST = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
   return json({ query: await draftQuery(user, id) });
 });

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 // Upload limits and which quiz generator is active, for the admin screens.
 export const GET = route(async (request) => {
-  requireUser(request);
+  await requireUser(request);
   return json({
     generator: generatorStatus(),
     autoPublish: process.env.QUIZ_AUTO_PUBLISH === 'true',

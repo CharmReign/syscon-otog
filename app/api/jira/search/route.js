@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // ?q=&project=&status=&limit=&startAt= (Data Center) or &next= (Cloud page token)
 export const GET = route(async (request) => {
-  requireUser(request);
+  await requireUser(request);
   const sp = new URL(request.url).searchParams;
   const data = await getClient('jira').search({
     query: sp.get('q'), project: sp.get('project') || undefined, status: sp.get('status') || undefined,

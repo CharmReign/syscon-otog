@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // Multipart: meta (JSON list), files (JPEG, repeatable).
 export const POST = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
   return json({ query: await addAttachments(user, id, await readQueryForm(request)) });
 });

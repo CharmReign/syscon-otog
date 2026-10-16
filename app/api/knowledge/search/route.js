@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 // ?q=&sources=internal,confluence,jira&categories=SYSTEM,SUPPORT
 export const GET = route(async (request) => {
-  requireUser(request);
+  await requireUser(request);
   const sp = new URL(request.url).searchParams;
   const q = (sp.get('q') || '').trim();
   if (q.length < 2) throw badRequest('Enter at least 2 characters to search.');

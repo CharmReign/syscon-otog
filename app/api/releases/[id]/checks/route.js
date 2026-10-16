@@ -5,7 +5,7 @@ import { addCheck } from '@/lib/server/releases';
 export const dynamic = 'force-dynamic';
 
 export const POST = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id } = await params(ctx);
-  return json({ release: addCheck(user, id, await readJson(request)) }, 201);
+  return json({ release: await addCheck(user, id, await readJson(request)) }, 201);
 });

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 // pages matching its summary and components. An AI triage summary can be added here
 // later by passing `defect` and `related` to a generation service.
 export const GET = route(async (request, ctx) => {
-  requireUser(request);
+  await requireUser(request);
   const { key } = await params(ctx);
   const defect = await getClient('jira').getIssue(key);
   const query = queryFromText(`${defect.summary} ${defect.components.join(' ')}`);

@@ -6,13 +6,13 @@ export const dynamic = 'force-dynamic';
 
 // Body: any of { status, comment, jiraKeys, links, title, critical }
 export const PATCH = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id, checkId } = await params(ctx);
-  return json({ release: updateCheck(user, id, checkId, await readJson(request)) });
+  return json({ release: await updateCheck(user, id, checkId, await readJson(request)) });
 });
 
 export const DELETE = route(async (request, ctx) => {
-  const user = requireUser(request);
+  const user = await requireUser(request);
   const { id, checkId } = await params(ctx);
-  return json({ release: removeCheck(user, id, checkId) });
+  return json({ release: await removeCheck(user, id, checkId) });
 });

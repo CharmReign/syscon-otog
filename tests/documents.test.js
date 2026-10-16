@@ -53,10 +53,10 @@ describe('extraction', () => {
 
 describe('upload workflow', () => {
   let admin, employee;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
-    admin = createUser(ROLES.ADMIN, 'Ada Admin');
-    employee = createUser(ROLES.EMPLOYEE, 'Erin Employee');
+    admin = await createUser(ROLES.ADMIN, 'Ada Admin');
+    employee = await createUser(ROLES.EMPLOYEE, 'Erin Employee');
   });
 
   it('processes a supported file and records metadata', async () => {
@@ -90,7 +90,7 @@ describe('upload workflow', () => {
     const { data } = await upload(admin, textFile());
     const doc = await call(getDoc, req(`/api/levelup/documents/${data.document.id}?content=1`, { user: employee }), { id: data.document.id });
     expect(doc.data.document.sections).toHaveLength(4);
-    const hits = searchDocuments('duty manager escalation');
+    const hits = await searchDocuments('duty manager escalation');
     expect(hits[0]).toMatchObject({ documentId: data.document.id, ref: 'Escalation Rules' });
   });
 });

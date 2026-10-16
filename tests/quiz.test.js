@@ -65,11 +65,11 @@ describe('validation and scoring', () => {
 
 describe('document-to-quiz workflow', () => {
   let admin, erin, sam;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
-    admin = createUser(ROLES.ADMIN, 'Ada Admin');
-    erin = createUser(ROLES.EMPLOYEE, 'Erin Employee');
-    sam = createUser(ROLES.EMPLOYEE, 'Sam Support');
+    admin = await createUser(ROLES.ADMIN, 'Ada Admin');
+    erin = await createUser(ROLES.EMPLOYEE, 'Erin Employee');
+    sam = await createUser(ROLES.EMPLOYEE, 'Sam Support');
   });
 
   async function draftQuiz() {

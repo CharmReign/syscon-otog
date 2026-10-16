@@ -5,6 +5,6 @@ import { integrationStatus } from '@/lib/server/integrations';
 export const dynamic = 'force-dynamic';
 
 export const GET = route(async (request) => {
-  requireUser(request);
-  return json({ integrations: integrationStatus() });
+  await requireUser(request);
+  return json({ integrations: await integrationStatus() });
 });

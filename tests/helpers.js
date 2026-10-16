@@ -12,6 +12,14 @@ import { SESSION_COOKIE, createSessionToken, hashPassword } from '@/lib/server/a
 export function useTempDataDir() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'otog-test-'));
   process.env.DATA_DIR = dir;
+  // File backend by default; set TEST_MONGODB_URI to run the suites against MongoDB,
+  // each test in a fresh database.
+  if (process.env.TEST_MONGODB_URI) {
+    process.env.MONGODB_URI = process.env.TEST_MONGODB_URI;
+    process.env.MONGODB_DB = `otog-test-${uuidv4().slice(0, 8)}`;
+  } else {
+    delete process.env.MONGODB_URI;
+  }
   process.env.SEED_DEMO_USERS = 'false';
   delete process.env.ANTHROPIC_API_KEY;
   delete process.env.ANTHROPIC_AUTH_TOKEN;
@@ -20,7 +28,7 @@ export function useTempDataDir() {
   return dir;
 }
 
-export function createUser(role, name = `${role} user`) {
+export async function createUser(role, name = `${role} user`) {
   return insertOne('users', {
     id: uuidv4(), username: `${role.toLowerCase()}-${uuidv4().slice(0, 6)}`, name, email: '', role,
     passwordHash: hashPassword('pw-123456'), createdAt: new Date().toISOString(),

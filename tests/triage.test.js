@@ -40,13 +40,13 @@ const AI_DRAFT = {
 
 describe('Client Defect Triage', () => {
   let admin, agent, other;
-  beforeEach(() => {
+  beforeEach(async () => {
     useTempDataDir();
     process.env.ANTHROPIC_API_KEY = 'test-key';
     vi.mocked(draftReply).mockReset().mockResolvedValue(AI_DRAFT);
-    admin = createUser(ROLES.ADMIN);
-    agent = createUser(ROLES.EMPLOYEE, 'Ann Agent');
-    other = createUser(ROLES.EMPLOYEE, 'Otto Other');
+    admin = await createUser(ROLES.ADMIN);
+    agent = await createUser(ROLES.EMPLOYEE, 'Ann Agent');
+    other = await createUser(ROLES.EMPLOYEE, 'Otto Other');
   });
 
   const create = async (fields = RELEASE_Q, files, meta) =>
