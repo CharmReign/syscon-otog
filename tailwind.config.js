@@ -20,19 +20,19 @@ module.exports = {
       },
       extend: {
         colors: {
-          // Brand accent: the cyan of the reference screens (Tailwind cyan scale).
+          // Brand: Syscon navy scale (900 is the syscon.net navy, #1E3668).
           brand: {
-            50: '#ecfeff',
-            100: '#cffafe',
-            200: '#a5f3fc',
-            300: '#67e8f9',
-            400: '#22d3ee',
-            500: '#06b6d4',
-            600: '#0891b2',
-            700: '#0e7490',
-            800: '#155e75',
-            900: '#164e63',
-            950: '#083344'
+            50: '#f0f4fa',
+            100: '#dde6f3',
+            200: '#c2d2ea',
+            300: '#9bb4db',
+            400: '#6f8fc7',
+            500: '#4f70b3',
+            600: '#3d5a99',
+            700: '#32497d',
+            800: '#2a3d67',
+            900: '#1e3668',
+            950: '#142446'
           },
           success: 'hsl(var(--success))',
           warning: 'hsl(var(--warning))',

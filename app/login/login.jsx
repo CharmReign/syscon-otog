@@ -54,31 +54,31 @@ export function LoginScreen({ onLogin }) {
     <div className="min-h-screen relative overflow-hidden bg-background">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-32 -left-32 w-[32rem] h-[32rem] rounded-full bg-primary/15 blur-3xl" />
-        <div className="absolute -bottom-40 -right-24 w-[36rem] h-[36rem] rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="absolute -bottom-40 -right-24 w-[36rem] h-[36rem] rounded-full bg-brand-400/10 blur-3xl" />
       </div>
 
       <div className="min-h-screen flex items-center justify-center px-4 pt-12 pb-16 relative z-10">
         <div className="w-full max-w-5xl glass rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
           <div className="relative min-h-[520px] hidden md:block">
             <img src="/syscon-login-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[70%_center]" />
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0a2a33]/95 via-[#0b3440]/85 to-[#07161c]/90" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1e3668]/95 via-[#2a4a7f]/85 to-[#0f1d3a]/90" />
             <div className="relative z-10 p-8 flex flex-col h-full text-white">
               <div className="flex items-center gap-3">
                 <LogoMark className="w-12 h-12" />
                 <div>
                   <div className="text-2xl font-bold tracking-tight">OneTeamOneGoal</div>
-                  <div className="text-xs text-cyan-300 font-semibold">Syscon</div>
+                  <div className="text-xs text-brand-200 font-semibold">Syscon</div>
                 </div>
               </div>
               <div className="flex-1 flex flex-col justify-center py-8">
-                <div className="text-3xl font-bold leading-tight mb-3">Our knowledge, <span className="text-cyan-300">in one place.</span></div>
+                <div className="text-3xl font-bold leading-tight mb-3">Our knowledge, <span className="text-brand-200">in one place.</span></div>
                 <p className="text-white/80 text-sm leading-relaxed max-w-sm">
                   Learn the product, test what you know, and find the documentation and tickets you need without searching five systems.
                 </p>
                 <ul className="mt-6 space-y-2.5">
                   {MODULES.map(m => (
                     <li key={m.label} className="flex items-center gap-2.5 text-sm text-white/85">
-                      <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center"><m.icon className="w-3.5 h-3.5 text-cyan-300" /></span>
+                      <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center"><m.icon className="w-3.5 h-3.5 text-brand-200" /></span>
                       {m.label}
                     </li>
                   ))}

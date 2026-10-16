@@ -416,9 +416,9 @@ function decisionsRegisterHtml(p) {
 <style>
 *{box-sizing:border-box}body{font-family:'Segoe UI',Arial,sans-serif;color:#0f172a;margin:0}.page{max-width:780px;margin:0 auto;padding:32px}
 .bar{display:flex;justify-content:space-between;align-items:center;background:#f1f5f9;padding:12px 16px;border-radius:8px;margin-bottom:24px;font-size:13px}
-.bar button{background:#0f766e;color:#fff;border:0;border-radius:6px;padding:8px 16px;font-weight:600;cursor:pointer}
-.head{border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b}
-h1{margin:4px 0;font-size:24px}.sub{color:#0f766e;font-weight:600}.sum{background:#f1f5f9;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:20px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.bar button{background:#1e3668;color:#fff;border:0;border-radius:6px;padding:8px 16px;font-weight:600;cursor:pointer}
+.head{border-bottom:3px solid #1e3668;padding-bottom:16px;margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748b}
+h1{margin:4px 0;font-size:24px}.sub{color:#1e3668;font-weight:600}.sum{background:#f1f5f9;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:20px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .d{border:1px solid #cbd5e1;border-left:5px solid;border-radius:8px;padding:14px 18px;margin-bottom:14px;break-inside:avoid}.h{display:flex;justify-content:space-between;gap:12px}
 .t{font-weight:700;font-size:15px}.s{font-size:10px;font-weight:700}.f{margin-top:10px;font-size:12px;line-height:1.5}.l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:2px}
 .m{display:flex;gap:20px;margin-top:10px;padding-top:8px;border-top:1px solid #f1f5f9;font-size:12px}.sig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:40px;font-size:10px;color:#64748b}

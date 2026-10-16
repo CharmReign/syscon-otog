@@ -1,6 +1,9 @@
+import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import sysconIcon from './syscon-icon.png';
+
+const openSans = Open_Sans({ subsets: ['latin'], variable: '--font-open-sans', display: 'swap' });
 
 export const metadata = {
   title: 'Syscon OneTeamOneGoal',
@@ -19,7 +22,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={openSans.variable} suppressHydrationWarning>
       <body>
         <Providers>{children}</Providers>
       </body>

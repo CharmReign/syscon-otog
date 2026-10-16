@@ -3,83 +3,83 @@
 @tailwind utilities;
 
 /*
-  Palette matched to the MatchaAI Academy reference screens (via steep): deep navy-teal
-  canvas, teal panels with thin teal borders, one cyan accent. Dark is the default theme;
-  light is a cool, airy variant of the same hues.
+  Palette matched to syscon.net: Syscon navy (#1E3668) as the brand colour, steel-blue
+  surfaces from the site's hero, white text on navy. Dark is the default theme (deep navy
+  canvas, light steel-blue accent); light is a cool off-white with navy as primary.
 */
 @layer base {
   :root {
-    --background: 195 35% 96%;
-    --foreground: 197 54% 11%;
+    --background: 216 33% 96%;
+    --foreground: 222 47% 13%;
     --card: 0 0% 100%;
-    --card-foreground: 197 54% 11%;
+    --card-foreground: 222 47% 13%;
     --popover: 0 0% 100%;
-    --popover-foreground: 197 54% 11%;
-    --primary: 190 95% 30%;
+    --popover-foreground: 222 47% 13%;
+    --primary: 220 58% 26%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 192 30% 92%;
-    --secondary-foreground: 197 54% 11%;
-    --muted: 192 30% 92%;
-    --muted-foreground: 195 18% 36%;
-    --accent: 188 60% 90%;
-    --accent-foreground: 192 85% 20%;
+    --secondary: 216 30% 92%;
+    --secondary-foreground: 222 47% 13%;
+    --muted: 216 30% 92%;
+    --muted-foreground: 218 16% 38%;
+    --accent: 215 50% 90%;
+    --accent-foreground: 220 58% 24%;
     --destructive: 0 70% 45%;
     --destructive-foreground: 0 0% 100%;
     --success: 160 80% 25%;
     --warning: 32 90% 34%;
-    --border: 192 28% 82%;
-    --input: 192 25% 72%;
-    --ring: 190 95% 30%;
-    --chart-1: 190 95% 30%;
+    --border: 216 25% 83%;
+    --input: 216 22% 72%;
+    --ring: 220 58% 26%;
+    --chart-1: 220 58% 32%;
     --chart-2: 160 80% 30%;
     --chart-3: 32 90% 40%;
     --chart-4: 0 70% 45%;
     --chart-5: 260 50% 50%;
     --radius: 0.85rem;
-    --sidebar-background: 195 35% 98%;
-    --sidebar-foreground: 197 54% 11%;
-    --sidebar-primary: 190 95% 30%;
+    --sidebar-background: 216 33% 98%;
+    --sidebar-foreground: 222 47% 13%;
+    --sidebar-primary: 220 58% 26%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 188 60% 90%;
-    --sidebar-accent-foreground: 192 85% 20%;
-    --sidebar-border: 192 28% 82%;
-    --sidebar-ring: 190 95% 30%;
+    --sidebar-accent: 215 50% 90%;
+    --sidebar-accent-foreground: 220 58% 24%;
+    --sidebar-border: 216 25% 83%;
+    --sidebar-ring: 220 58% 26%;
   }
   .dark {
-    --background: 197 54% 9%;
-    --foreground: 190 30% 97%;
-    --card: 191 84% 16%;
-    --card-foreground: 190 30% 97%;
-    --popover: 193 72% 13%;
-    --popover-foreground: 190 30% 97%;
-    --primary: 188 86% 53%;
-    --primary-foreground: 197 60% 8%;
-    --secondary: 192 60% 13%;
-    --secondary-foreground: 190 30% 97%;
-    --muted: 197 54% 11%;
-    --muted-foreground: 192 22% 70%;
-    --accent: 191 70% 22%;
-    --accent-foreground: 187 85% 72%;
+    --background: 222 47% 9%;
+    --foreground: 214 40% 97%;
+    --card: 220 45% 15%;
+    --card-foreground: 214 40% 97%;
+    --popover: 221 47% 12%;
+    --popover-foreground: 214 40% 97%;
+    --primary: 214 75% 72%;
+    --primary-foreground: 222 55% 12%;
+    --secondary: 221 40% 14%;
+    --secondary-foreground: 214 40% 97%;
+    --muted: 222 45% 11%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 219 45% 22%;
+    --accent-foreground: 213 80% 80%;
     --destructive: 0 85% 70%;
-    --destructive-foreground: 197 60% 8%;
+    --destructive-foreground: 222 55% 12%;
     --success: 158 70% 58%;
     --warning: 40 92% 64%;
-    --border: 190 68% 24%;
-    --input: 190 55% 32%;
-    --ring: 188 86% 53%;
-    --chart-1: 188 86% 53%;
+    --border: 218 35% 24%;
+    --input: 217 30% 32%;
+    --ring: 214 75% 72%;
+    --chart-1: 214 75% 72%;
     --chart-2: 158 70% 58%;
     --chart-3: 40 92% 64%;
     --chart-4: 0 85% 70%;
     --chart-5: 260 80% 78%;
-    --sidebar-background: 197 54% 8%;
-    --sidebar-foreground: 190 30% 97%;
-    --sidebar-primary: 188 86% 53%;
-    --sidebar-primary-foreground: 197 60% 8%;
-    --sidebar-accent: 191 70% 18%;
-    --sidebar-accent-foreground: 187 85% 72%;
-    --sidebar-border: 190 68% 20%;
-    --sidebar-ring: 188 86% 53%;
+    --sidebar-background: 222 50% 8%;
+    --sidebar-foreground: 214 40% 97%;
+    --sidebar-primary: 214 75% 72%;
+    --sidebar-primary-foreground: 222 55% 12%;
+    --sidebar-accent: 219 45% 19%;
+    --sidebar-accent-foreground: 213 80% 80%;
+    --sidebar-border: 218 35% 20%;
+    --sidebar-ring: 214 75% 72%;
   }
 }
 
@@ -88,11 +88,11 @@
   html, body { height: 100%; }
   body {
     @apply text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: var(--font-open-sans), 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: hsl(var(--background));
-    background-image: radial-gradient(at 10% 0%, hsla(188, 80%, 75%, 0.25) 0px, transparent 45%);
+    background-image: radial-gradient(at 10% 0%, hsla(215, 60%, 78%, 0.3) 0px, transparent 45%);
     background-attachment: fixed;
   }
   .dark body { background-image: none; }
@@ -103,7 +103,7 @@
   .glass, .glass-strong {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    box-shadow: 0 1px 2px hsl(197 50% 10% / 0.04), 0 6px 18px -8px hsl(197 50% 10% / 0.12);
+    box-shadow: 0 1px 2px hsl(222 50% 15% / 0.04), 0 6px 18px -8px hsl(222 50% 15% / 0.14);
   }
   .glass-subtle {
     background: hsl(var(--muted));
@@ -124,7 +124,7 @@
       radial-gradient(at 40% 90%, hsla(225, 90%, 78%, 0.18) 0px, transparent 50%);
   }
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(188, 86%, 70%));
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(213, 75%, 80%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

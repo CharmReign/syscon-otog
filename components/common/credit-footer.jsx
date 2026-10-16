@@ -6,7 +6,7 @@ export function CreditFooter({ className = '' }) {
         href="https://syscon.net/"
         target="_blank"
         rel="noopener noreferrer"
-        className="font-semibold text-teal-500 hover:text-teal-400 hover:underline transition"
+        className="font-semibold text-primary hover:text-primary/80 hover:underline transition"
       >
         Syscon Justice Systems
       </a>

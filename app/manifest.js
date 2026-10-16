@@ -7,8 +7,8 @@ export default function manifest() {
     description: 'Internal knowledge, learning and engineering support: Level Up quizzes, defect triage, AS-IS navigation and release health checks.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#0a1b22',
-    theme_color: '#0a1b22',
+    background_color: '#0c1426',
+    theme_color: '#0c1426',
     icons: [
       { src: sysconIcon.src, type: 'image/png' },
     ],
