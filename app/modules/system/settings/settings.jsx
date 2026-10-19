@@ -102,6 +102,7 @@ function IntegrationCard({ integration: i, admin }) {
       <dl className="mt-4 space-y-2 text-sm">
         <div className="flex justify-between gap-3"><dt className="text-muted-foreground">Deployment</dt><dd>{i.baseUrl ? (i.deployment === 'cloud' ? 'Cloud' : 'Data Center / Server') : '—'}</dd></div>
         <div className="flex justify-between gap-3"><dt className="text-muted-foreground">Base URL</dt><dd className="truncate max-w-[60%]" title={i.baseUrl || ''}>{i.baseUrl || '—'}</dd></div>
+        <div className="flex justify-between gap-3"><dt className="text-muted-foreground">API URL</dt><dd className="truncate max-w-[60%]" title={i.apiBaseUrl || ''}>{i.apiBaseUrl || '—'}</dd></div>
         <div className="flex justify-between gap-3"><dt className="text-muted-foreground">Authentication</dt><dd>{i.authMethod || '—'}</dd></div>
         {i.missing.length > 0 && <div className="text-xs text-warning">Missing: {i.missing.join(', ')}</div>}
         {!i.enabled && i.baseUrl && <div className="text-xs text-muted-foreground">Disabled by configuration.</div>}
